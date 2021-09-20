@@ -1,4 +1,8 @@
-from nltk.tokenize import word_tokenize, sent_tokenize
+import numpy as np
+from gensim.models import Word2Vec
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+from nltk.tokenize import sent_tokenize
 import re  # Regex için gerekli modul
 import string
 from nltk.corpus import stopwords
