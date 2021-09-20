@@ -1,16 +1,25 @@
+import pandas as pd  # veri işleme, CSV dosyaları
+import re  # Regex için gerekli modul
+import string
 import nltk
 from nltk.corpus import stopwords
-import pandas as pd
-import string
-import re
+from nltk.tokenize import word_tokenize
 
-data = pd.read_csv("jokes.csv")
-news_dataset = data[["Answer"]]
+text = open("jokes.csv", "r", encoding="utf8")
 
 
-# print(news_dataset.head(3))
-def cleanData(text):
-    text = text.lower()
-    text = text.replace("\n", " ")
-    text = re.sub("'(\w+)", "", text)
-    
+# text = re.sub("'(\w+)", "", text)
+def cleanData(data):
+    punctuationSet = string.punctuation
+    text = word_tokenize(data)
+    data = data.lower()
+    data = data.replace("\n ", " ")
+    return data
+
+
+#
+# print(word_tokenize(text))
+text = "".join(list(map(lambda x: x if x not in punctuationSet else " ", text)))
+
+print(text)
+# print(text)
