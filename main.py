@@ -79,4 +79,4 @@ def closeswords_tsneplot(model, word):
     plt.show()
 
 
-closeswords_tsneplot(model, "pizza")
+closeswords_tsneplot(model, "eat")
