@@ -1,61 +1,67 @@
 import numpy as np
+import string
+from nltk.corpus import stopwords
+import re
 from gensim.models import Word2Vec
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
-from nltk.tokenize import sent_tokenize
-import re  # Regex için gerekli modul
-import string
-from nltk.corpus import stopwords
 
-f = open("jokes.csv", "r", encoding="utf8")  # r =Read   utf8 turkçe karakterlerle çalışcağımızı belirttik.
-data = f.read()
-
-
-def clean(text):
-    punctuation_set = string.punctuation
-    ineffective_element_set = stopwords.words("english")
-    text = sent_tokenize(text, "english")
-    text = "".join(list(map(lambda x: x if x not in punctuation_set else " ", text)))
-    text = re.sub("[0-9]+", "", text)
-    text = text.lower()
-    text = text.replace("\n ", " ")
-    text = " ".join([i for i in text.split() if i not in ineffective_element_set])
-    text = " ".join([i for i in text.split() if len(i) > 1])
-    text = re.sub(r'[^\w\s]', '', text)
-    text = text.replace("'", "")
-    text = text.replace("``", "")
-    return text
-
-
-newData = clean(data)
-f = open("cleanJokes.txt", "w", encoding="utf8")
-f.write(newData)
-f = open("cleanJokes.txt", "r", encoding="utf8")
+# f = open("turkish_news_70000.csv/turkish_news_70000.csv", "r",
+#          encoding="utf8")
+# text = f.read()
+#
+#
+# def cleandata(data):
+#     punctuation_set = string.punctuation
+#     ineffective_element_set = stopwords.words("turkish")
+#     ineffective_element_set.extend(
+#         ["www", "jpg", "wp", "com", "php", "id", "aa", "src", "nin", "mi", "dha", "nı", "ni", "tr", "li", "ın", "rde",
+#          "ün", "un", "nun", "mızın", "tan", "ta", "te", "nın", "ye", "la", "https", "in", "göre", "olsa", "ler",
+#          "leri", "son", "na", "http", "co", "sb", "sn", "ila", "bin", "nbir", "bir", "iki", "üç", "content", "text",
+#          "main", "image", "published", " site", " text", "title", "url", "td", "ı", "i", "png", "ilk", "capital",
+#          "birinci", "ikinci", "ucuncu","lik","lık","uncu","üncü","e","a"])
+#     data = "".join(list(map(lambda x: x if x not in punctuation_set else " ", data)))
+#     data = re.sub("[0-9]+", "", data)
+#     data = data.lower()
+#     data = data.replace("\n ", " ")
+#     data = " ".join([i for i in data.split() if i not in ineffective_element_set])
+#     data = " ".join([i for i in data.split() if len(i) > 1])
+#     data = re.sub(r'[^\w\s]', '', data)
+#     data = data.replace("'", "")
+#     data = data.replace("``", "")
+#     return data
+#
+#
+# newData = cleandata(text)
+# f = open("cleanDatas.txt", "w", encoding="utf8")
+# f.write(newData)
+# f = open("cleanDatas.txt", "r", encoding="utf8")
+# text = f.read()
+f = open("cleanDatas.txt", "r", encoding="utf8")  # r =Read   utf8 turkçe karakterlerle çalışcağımızı belirttik.
 text = f.read()
-t_list = text.split("\n")
+t_list = text.split('\n')
+
 corpus = []
 for sentence in t_list:
     a = corpus.append(sentence.split())
 # print(corpus[:10])
 
 model = Word2Vec(corpus, vector_size=100, window=5, min_count=5, sg=1)
-print(model)
-
-
+# print(model)
 # sg=1 skip-gram alg kullanılacak demek.default cbow kullanılıyor
 
-# print(model.wv["father"])
+# print(model.wv["ankara"])
 
-# print(model.wv.most_similar("mother"))
+# print(model.wv.most_similar("istanbul"))
 # modele kelimeleri verip eğittik.Ülkeleri bağdaştırıp bize getirdi.
 
-# print(model.wv.most_similar("american"))
+# print(model.wv.most_similar("pazartesi"))
 # gün ile ilgili bağdaştırdıklarını getiriyor.
 
 # model.save("word2vec.model")
 # model = Word2Vec.load("word2vec.model")
-
-
+#
+#
 def closeswords_tsneplot(model, word):
     word_vectors = np.empty((0, 100))
     word_labels = [word]
@@ -79,4 +85,4 @@ def closeswords_tsneplot(model, word):
     plt.show()
 
 
-closeswords_tsneplot(model, "eat")
+closeswords_tsneplot(model, "erdoğan")
